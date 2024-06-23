@@ -16,6 +16,7 @@ namespace DataAccess
         public static IServiceCollection AddBusinessLogic(this IServiceCollection services)
         {
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IItemService, ItemService>();
             services.AddAutoMapper(typeof(AppMapper));
             return services;
         }

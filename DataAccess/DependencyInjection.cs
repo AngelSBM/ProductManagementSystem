@@ -15,7 +15,7 @@ namespace DataAccess
         public static IServiceCollection AddDataAccess(this IServiceCollection services)
         {
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IRepository<Item>, Repository<Item>>();
+            services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IRepository<Category>, Repository<Category>>();
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             return services;

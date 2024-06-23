@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProductManagementSystem.Shared.DTOs
 {
-    public class ApiResponse<T>
+    public class CategoryDto
     {
-        public string Message { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace DataAccess.UnitOfWork
         public UnitOfWork(
              ApplicationDbContext context,
              ICustomerRepository customerRepository,
-             IRepository<Item> itemRepository,
+             IItemRepository itemRepository,
              IRepository<Category> categoryRepository
             )
         {
@@ -26,7 +26,7 @@ namespace DataAccess.UnitOfWork
 
         private readonly ApplicationDbContext _context;
         public ICustomerRepository customerRepository { get; set; }
-        public IRepository<Item> itemRepository { get; set; }
+        public IItemRepository itemRepository { get; set; }
         public IRepository<Category> categoryRepository { get; set; }
 
         public void BeginTransaction()

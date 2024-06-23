@@ -14,7 +14,7 @@ namespace DataAccess.UnitOfWork
     public interface IUnitOfWork
     {
         public ICustomerRepository customerRepository { get; set; }
-        public IRepository<Item> itemRepository { get; set; }
+        public IItemRepository itemRepository { get; set; }
         public IRepository<Category> categoryRepository { get; set; }
 
         public void BeginTransaction();

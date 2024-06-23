@@ -16,19 +16,19 @@
 
     <div class="mb-3">
         <label class="form-label">Name</label>
-        <InputText class="form-control" @bind-Value="customer.Name" disabled="@customer.Active"></InputText>
+        <InputText class="form-control" @bind-Value="customer.Name" disabled="@(customer.Active)"></InputText>
         <ValidationMessage For="() => customer.Name"></ValidationMessage>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Phone</label>     
-        <InputText class="form-control" type="number" @bind-Value="customer.Phone" disabled="@customer.Active"></InputText>
+        <InputText class="form-control" type="number" @bind-Value="customer.Phone" disabled="@(customer.Active)"></InputText>
         <ValidationMessage For="() => customer.Phone"></ValidationMessage>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Email</label>
-        <InputText class="form-control" @bind-Value="customer.Email" disabled="@customer.Active"></InputText>
+        <InputText class="form-control" @bind-Value="customer.Email" disabled="@(customer.Active)"></InputText>
         <ValidationMessage For="() => customer.Email"></ValidationMessage>
     </div>
 

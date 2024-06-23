@@ -30,7 +30,7 @@
             <th>Name</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>Active</th>
+            <th>Status</th>
             <th></th>
         </tr>
     </thead>
@@ -39,7 +39,7 @@
         {
             <tr>
                 <td colspan="5" align="center">
-                    No hay registros
+                    No customers
                 </td>
             </tr>
         }
@@ -52,7 +52,14 @@
                     <td>@customer.Phone</td>
                     <td>@customer.Email</td>
                     <td>
-                        @customer.Active
+                        @if (@customer.Active)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Inactive</span>
+                        }                                                    
                     </td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="customer/@customer.Id">

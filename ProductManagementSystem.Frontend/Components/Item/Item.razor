@@ -1,0 +1,148 @@
+﻿@page "/item/{itemId:int}"
+@using BusinessLogic.DTOs
+@using CurrieTechnologies.Razor.SweetAlert2
+@using ProductManagementSystem.Frontend.Services
+@using ProductManagementSystem.Shared.DTOs
+@using ProductManagementSystem.Shared.DTOs.Item
+
+@inject IItemService itemService
+@inject NavigationManager Navigation
+@inject SweetAlertService Swal
+
+
+<h3>Item</h3>
+
+<EditForm Model="item" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText class="form-control" @bind-Value="item.Name" disabled="@(!item.Active)"></InputText>
+        <ValidationMessage For="() => item.Name"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Number</label>
+        <InputNumber class="form-control" @bind-Value="item.Number" disabled="@(!item.Active)"></InputNumber>
+        <ValidationMessage For="() => item.Number"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <InputText class="form-control" @bind-Value="item.Description" disabled="@(!item.Active)"></InputText>
+        <ValidationMessage For="() => item.Description"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Category</label>
+        <InputSelect class="form-control" @bind-Value="item.Category.Id" disabled="@(!item.Active)">
+            <option>-- Select an item category</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="() => item.Category.Id"></ValidationMessage>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-6">
+            <a class="btn btn-warning" href="items">Volver</a>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            @if (!item.Active && buttonDisplayText == "Update")
+            {
+                <button class="btn btn-secondary" type="button" @onclick="() => EnableItem()">
+                    Enable item
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary" type="submit">
+                    @buttonDisplayText
+                </button>
+            }
+        </div>
+
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public int itemId { get; set; } = 0;
+    public ItemDto item = new();
+    IEnumerable<CategoryDto> categories = [];
+
+    public string buttonDisplayText = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        item.Category = new CategoryDto();
+        if (itemId is 0)
+        {
+            buttonDisplayText = "Create";
+            item.Active = true;      
+        }
+        else
+        {
+            buttonDisplayText = "Update";
+            item = await itemService.GetItemById(itemId);
+        }
+
+        categories = await itemService.GetCateogoriesAsync();
+    }
+
+    private async Task OnValidSubmit()
+    {
+
+        if (itemId is 0)
+        {
+            CreateItemDto newItem = new()
+                {
+                    Name = item.Name,
+                    Number = item.Number,
+                    Description = item.Description,
+                    Active = true,
+                    Category = new CategoryDto()
+                    {
+                        Id = item.Category.Id,
+                        Name = ""                        
+                    }
+                };
+
+            await itemService.CreateItemAsync(newItem);
+
+        }
+
+        if (itemId > 0)
+        {
+            await itemService.UpdateItemAsync(item);
+        }
+
+        Navigation.NavigateTo("/items");
+
+    }
+
+    private async Task EnableItem()
+    {
+        item.Active = true;
+        await itemService.UpdateItemAsync(item);
+
+        await Swal.FireAsync(new SweetAlertOptions()
+            {
+                Title = item.Name,
+                Text = "User enabled!",
+                Icon = SweetAlertIcon.Success
+            });
+
+        Navigation.NavigateTo("/items");
+
+    }
+
+
+}

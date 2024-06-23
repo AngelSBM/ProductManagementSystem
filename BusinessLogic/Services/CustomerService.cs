@@ -65,7 +65,7 @@ namespace BusinessLogic.Services
                 throw new InvalidOperationException("Customer not found");
 
             customerDb.Active = false;
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
         }
 
         public async Task UpdateCustomerAsync(CustomerDto updatedCustomer)

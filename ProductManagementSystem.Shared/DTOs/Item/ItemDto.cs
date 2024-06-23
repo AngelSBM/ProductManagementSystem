@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProductManagementSystem.Shared.DTOs
+namespace ProductManagementSystem.Shared.DTOs.Item
 {
     public class ItemDto
     {
@@ -13,6 +13,6 @@ namespace ProductManagementSystem.Shared.DTOs
         public int Number { get; set; }
         public string Description { get; set; }
         public bool Active { get; set; }
-        public CateogryDto Category { get; set; } = null!;
+        public CategoryDto Category { get; set; } = null!;
     }
 }
