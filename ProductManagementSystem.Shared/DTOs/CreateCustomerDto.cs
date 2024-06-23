@@ -8,21 +8,8 @@ namespace BusinessLogic.DTOs
 {
     public class CreateCustomerDto
     {
-        public int Id { get; set; }
-        private string _name;
-        public string Name {
-            get => _name;
-            set 
-            {
-                if(value == null)
-                {
-                    throw new ArgumentNullException(nameof(value), "Argument cannot be null");
-                }
-                _name = value;
-            }
-        }
+        public string Name { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public bool Active {  get; set; }
     }
 }

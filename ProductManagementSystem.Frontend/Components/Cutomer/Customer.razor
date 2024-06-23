@@ -1,0 +1,119 @@
+﻿@page "/customer/{customerId:int}"
+@using BusinessLogic.DTOs
+@using CurrieTechnologies.Razor.SweetAlert2
+@using ProductManagementSystem.Frontend.Services
+@using ProductManagementSystem.Shared.DTOs
+
+@inject ICustomerService customerService
+@inject NavigationManager Navigation
+@inject SweetAlertService Swal
+
+
+<h3>Customer</h3>
+
+<EditForm Model="customer" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <InputText class="form-control" @bind-Value="customer.Name" disabled="@customer.Active"></InputText>
+        <ValidationMessage For="() => customer.Name"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Phone</label>     
+        <InputText class="form-control" type="number" @bind-Value="customer.Phone" disabled="@customer.Active"></InputText>
+        <ValidationMessage For="() => customer.Phone"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <InputText class="form-control" @bind-Value="customer.Email" disabled="@customer.Active"></InputText>
+        <ValidationMessage For="() => customer.Email"></ValidationMessage>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <a class="btn btn-warning" href="customers">Volver</a>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            @if (!customer.Active && buttonDisplayText == "Update")
+            {
+                <button class="btn btn-secondary" type="button" @onclick="() => EnableUser()">
+                    Enable customer
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary" type="submit">
+                    @buttonDisplayText
+                </button>
+            }
+        </div>
+
+    </div>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CustomerId { get; set; } = 0;
+    public CustomerDto customer = new();
+    public string buttonDisplayText = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (CustomerId is 0)
+            buttonDisplayText = "Create";
+        else
+        {
+            buttonDisplayText = "Update";
+            customer = await customerService.GetCustomerById(CustomerId);
+        }
+
+
+    }
+
+    private async Task OnValidSubmit()
+    {        
+
+        if (CustomerId is 0)
+        {
+            CreateCustomerDto newCustomer = new CreateCustomerDto()
+            {
+                Name = customer.Name,
+                Email = customer.Email,
+                Phone = customer.Phone
+            };
+
+            await customerService.CreateCustomerAsync(newCustomer);
+
+        }
+
+        if(CustomerId > 0)
+        {
+            await customerService.UpdateCustomerAsync(customer);
+        }
+
+        Navigation.NavigateTo("/customers");
+
+    }
+
+    private async Task EnableUser()
+    {
+        customer.Active = true;
+        await customerService.UpdateCustomerAsync(customer);
+
+        await Swal.FireAsync(new SweetAlertOptions()
+            {
+                Title = customer.Name,
+                Text = "User enabled!",
+                Icon = SweetAlertIcon.Success
+            });
+
+        Navigation.NavigateTo("/customers");
+
+    }
+
+}

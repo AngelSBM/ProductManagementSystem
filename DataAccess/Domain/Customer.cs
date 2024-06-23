@@ -38,7 +38,7 @@ namespace Domain.Entities
                 }
                 if (!PhoneNumberRegex.IsMatch(value))
                 {
-                    throw new ArgumentException("Phone number must be exactly 10 digits with no special characters.", nameof(value));
+                    throw new ArgumentException("Phone number must be up to 12 digits with no special characters.", nameof(value));
                 }
                 _phone = value;
             }
@@ -64,7 +64,7 @@ namespace Domain.Entities
         public bool Active { get; set; }
         public List<CustomerItem> CustomerItems { get; set; } = [];
 
-        private static readonly Regex PhoneNumberRegex = new Regex(@"^\d{10}$", RegexOptions.Compiled);
+        private static readonly Regex PhoneNumberRegex = new Regex(@"^\d{1,12}$", RegexOptions.Compiled);
         private static readonly Regex EmailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     }
 }

@@ -13,7 +13,7 @@ namespace DataAccess.UnitOfWork
 
         public UnitOfWork(
              ApplicationDbContext context,
-             IRepository<Customer> customerRepository,
+             ICustomerRepository customerRepository,
              IRepository<Item> itemRepository,
              IRepository<Category> categoryRepository
             )
@@ -25,7 +25,7 @@ namespace DataAccess.UnitOfWork
         }
 
         private readonly ApplicationDbContext _context;
-        public IRepository<Customer> customerRepository { get; set; }
+        public ICustomerRepository customerRepository { get; set; }
         public IRepository<Item> itemRepository { get; set; }
         public IRepository<Category> categoryRepository { get; set; }
 
@@ -39,9 +39,9 @@ namespace DataAccess.UnitOfWork
             _context.Database.CommitTransaction();
         }
 
-        public void Complete()
+        public async Task Complete()
         {
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public void RollbackTransaction()

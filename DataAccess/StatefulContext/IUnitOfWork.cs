@@ -13,13 +13,13 @@ namespace DataAccess.UnitOfWork
 {
     public interface IUnitOfWork
     {
-        public IRepository<Customer> customerRepository { get; set; }
+        public ICustomerRepository customerRepository { get; set; }
         public IRepository<Item> itemRepository { get; set; }
         public IRepository<Category> categoryRepository { get; set; }
 
         public void BeginTransaction();
         public void CommitTransaction();
         public void RollbackTransaction();
-        public void Complete();
+        public Task Complete();
     }
 }

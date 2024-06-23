@@ -10,10 +10,10 @@ namespace DataAccess.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByAsync(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
         Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate);
-        Task<IEnumerable<T>> GetAllIncludingAsync(params Expression<Func<T, object>>[] includeProperties);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
@@ -30,10 +30,11 @@ namespace DataAccess.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByAsync(Expression<Func<T, bool>> expression)
         {
-            return await _dbSet.FindAsync(id);
+            return await _context.Set<T>().Where(expression).FirstOrDefaultAsync();
         }
+
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -51,7 +52,7 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllIncludingAsync(params Expression<Func<T, object>>[] includeProperties)
+        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbSet;
             foreach (var includeProperty in includeProperties)
@@ -60,6 +61,7 @@ namespace DataAccess.Repositories
             }
             return await query.ToListAsync();
         }
+       
 
         public async Task UpdateAsync(T entity)
         {

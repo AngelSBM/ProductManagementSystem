@@ -1,4 +1,6 @@
-﻿using DataAccess.Repositories;
+﻿using BusinessLogic.Helpers;
+using BusinessLogic.Services;
+using DataAccess.Repositories;
 using Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,11 +13,10 @@ namespace DataAccess
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddDataAccess(this IServiceCollection services)
+        public static IServiceCollection AddBusinessLogic(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<Customer>, Repository<Customer>>();
-            services.AddScoped<IRepository<Item>, Repository<Item>>();
-            services.AddScoped<IRepository<Category>, Repository<Category>>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddAutoMapper(typeof(AppMapper));
             return services;
         }
     }
