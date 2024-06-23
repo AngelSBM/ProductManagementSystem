@@ -11,6 +11,7 @@ namespace DataAccess.Repositories
     public interface IItemRepository : IRepository<Item>
     {
         public Task<Item> GetItemByIdAsync(int id);
+        Task<IEnumerable<Item>> GetItemsAsync();
     }
     public class ItemRepository : Repository<Item>, IItemRepository
     {
@@ -22,10 +23,19 @@ namespace DataAccess.Repositories
 
         public async Task<Item> GetItemByIdAsync(int id)
         {
-            var items = await _context.Items
+            var item = await _context.Items
                             .Where(x => x.Id == id)                        
                             .Include(x => x.Category)                                         
                             .FirstOrDefaultAsync();
+
+            return item;
+        }
+
+        public async Task<IEnumerable<Item>> GetItemsAsync()
+        {
+            var items = await _context.Items
+                            .Include(x => x.Category)
+                            .ToListAsync();
 
             return items;
         }

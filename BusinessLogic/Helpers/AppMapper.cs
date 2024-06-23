@@ -15,6 +15,7 @@ namespace BusinessLogic.Helpers
         public AppMapper()
         {
             CreateMap<Customer, CustomerDto>();
+            CreateMap<Customer, CustomerInfoDto>();
             CreateMap<Item, ItemDto>().ForMember(x => x.Category, opts => opts.MapFrom(MapCategories));
             CreateMap<Category, CategoryDto>();
 

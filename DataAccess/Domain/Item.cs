@@ -14,6 +14,7 @@ namespace Domain.Entities
         public int Number { get; set; }
         public string Description {  get; set; }
         public bool Active {  get; set; }
+        public decimal Price { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
         public List<CustomerItem> CustomerItems { get; set; } = [];

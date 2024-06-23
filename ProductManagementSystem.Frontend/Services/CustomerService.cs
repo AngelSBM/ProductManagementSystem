@@ -2,6 +2,7 @@
 using Flurl;
 using Flurl.Http;
 using ProductManagementSystem.Shared.DTOs;
+using ProductManagementSystem.Shared.DTOs.Item;
 using System.Net.Http.Json;
 
 namespace ProductManagementSystem.Frontend.Services
@@ -14,6 +15,7 @@ namespace ProductManagementSystem.Frontend.Services
         Task CreateCustomerAsync(CreateCustomerDto newCustomer);
         Task UpdateCustomerAsync(CustomerDto updatedCustomer);
         Task DeleteCustomerAsync(int id);
+        Task<CustomerInfoDto> GetCustomerInformationAsync(int customerId);
     }
 
     public class CustomerService : ICustomerService
@@ -70,6 +72,19 @@ namespace ProductManagementSystem.Frontend.Services
                 .DeleteAsync();
 
         }
+
+
+        public async Task<CustomerInfoDto> GetCustomerInformationAsync(int customerId)
+        {
+            var result = await _baseUrl
+                .AppendPathSegment(_customerPath)
+                .AppendPathSegment("GetInformation")
+                .AppendPathSegment(customerId)
+                .GetJsonAsync<CustomerInfoDto>();
+
+            return result;
+        }
+
 
     }
 }

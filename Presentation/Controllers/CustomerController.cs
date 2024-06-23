@@ -18,6 +18,10 @@ namespace Presentation.Controllers
         [Route("GetAll")]
         public async Task<IActionResult> GetAll() => Ok(await _customerService.GetAllCustomersAsync());
 
+        [HttpGet]
+        [Route("GetInformation/{customerId}")]
+        public async Task<IActionResult> GetById(int customerId) => Ok(await _customerService.GetCustomersInformationAsync(customerId));
+
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> Create(CreateCustomerDto newCustomer)
@@ -42,6 +46,7 @@ namespace Presentation.Controllers
             return Ok();
         }
 
+        
 
     }
 }

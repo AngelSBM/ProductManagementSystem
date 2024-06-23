@@ -3,6 +3,7 @@ using BusinessLogic.DTOs;
 using DataAccess.UnitOfWork;
 using Domain.Entities;
 using ProductManagementSystem.Shared.DTOs;
+using ProductManagementSystem.Shared.DTOs.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace BusinessLogic.Services
         Task CreateNewCustomerAsync(CreateCustomerDto newCustomer);
         Task UpdateCustomerAsync(CustomerDto updatedCustomer);
         Task DeleteCustomerAsync(int customerId);
+        Task<CustomerInfoDto> GetCustomersInformationAsync(int customerId);
     }
 
     public class CustomerService(IUnitOfWork _unitOfWork, IMapper _mapper) : ICustomerService
@@ -82,6 +84,21 @@ namespace BusinessLogic.Services
 
             await _unitOfWork.Complete();
 
+        }
+
+        public async Task<CustomerInfoDto> GetCustomersInformationAsync(int customerId)
+        {
+            var customer = await _unitOfWork.customerRepository.GetCustomerInfoByIdAsync(customerId);
+
+            var customerInfoDto = _mapper.Map<CustomerInfoDto>(customer);
+
+            foreach (var customerItem in customer.CustomerItems)
+            {
+                var itemDto = _mapper.Map<ItemDto>(customerItem.Item);
+                customerInfoDto.Items.Add(itemDto);
+            }
+
+            return customerInfoDto;
         }
 
     }

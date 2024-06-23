@@ -59,7 +59,7 @@ namespace BusinessLogic.Services
 
         public async Task<IEnumerable<ItemDto>> GetAllItemsAsync()
         {
-            var items = await _unitOfWork.itemRepository.GetAllAsync();
+            var items = await _unitOfWork.itemRepository.GetItemsAsync();
 
             var itemsDto = _mapper.Map<IEnumerable<ItemDto>>(items);
 

@@ -34,6 +34,12 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">Price</label>
+        <InputNumber class="form-control" @bind-Value="item.Price" disabled="@(!item.Active)"></InputNumber>
+        <ValidationMessage For="() => item.Price"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">Category</label>
         <InputSelect class="form-control" @bind-Value="item.Category.Id" disabled="@(!item.Active)">
             <option>-- Select an item category</option>
