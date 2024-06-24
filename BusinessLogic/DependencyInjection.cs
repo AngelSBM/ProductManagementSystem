@@ -17,6 +17,7 @@ namespace DataAccess
         {
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IRepository<CustomerItem>, Repository<CustomerItem>>();
             services.AddAutoMapper(typeof(AppMapper));
             return services;
         }

@@ -35,6 +35,7 @@ namespace BusinessLogic.Services
                 Name = newItem.Name,
                 Number = newItem.Number,
                 Description = newItem.Description,
+                Price = newItem.Price,
                 Active = true                
             };            
 
@@ -93,6 +94,7 @@ namespace BusinessLogic.Services
             item.Description = updatedItem.Description; 
             item.Number = updatedItem.Number;
             item.Active = updatedItem.Active;
+            item.Price = updatedItem.Price;
             item.CategoryId = updatedItem.Category.Id;
 
             var updatedItemNumber = await _unitOfWork.itemRepository.GetByAsync(x => x.Number == updatedItem.Number);

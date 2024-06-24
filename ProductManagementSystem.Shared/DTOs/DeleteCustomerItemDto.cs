@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace ProductManagementSystem.Shared.DTOs
 {
-    public class CustomerItem
+    public class DeleteCustomerItemDto
     {
-        public int Id { get; set; }
         public int CustomerId { get; set; }
         public int ItemId { get; set; }
-        public Customer? Customer { get; set; } = null!;
-        public Item? Item { get; set; } = null!;
     }
 }

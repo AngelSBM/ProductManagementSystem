@@ -17,9 +17,11 @@ namespace BusinessLogic.Services
         Task<CustomerDto> GetCustomerByIdAsync(int id);
         Task<IEnumerable<CustomerDto>> GetAllCustomersAsync();
         Task CreateNewCustomerAsync(CreateCustomerDto newCustomer);
+        Task CreateCustomerItemAsync(CreateCustomerItemDto newCustomerItem);
         Task UpdateCustomerAsync(CustomerDto updatedCustomer);
         Task DeleteCustomerAsync(int customerId);
         Task<CustomerInfoDto> GetCustomersInformationAsync(int customerId);
+        Task DeleteCustomerItemAsync(DeleteCustomerItemDto customerItemTodelete);
     }
 
     public class CustomerService(IUnitOfWork _unitOfWork, IMapper _mapper) : ICustomerService
@@ -101,5 +103,32 @@ namespace BusinessLogic.Services
             return customerInfoDto;
         }
 
+        public async Task CreateCustomerItemAsync(CreateCustomerItemDto newCustomerItem)
+        {
+  
+            var customer = await _unitOfWork.customerRepository.GetByAsync(x => x.Id == newCustomerItem.CustomerId);
+            var item = await _unitOfWork.itemRepository.GetByAsync(x => x.Id == newCustomerItem.ItemId);
+
+            if (customer is null || item is null)
+                throw new InvalidOperationException("Customer or item not found");
+
+            var customerItemDb = new CustomerItem()
+            {
+                CustomerId = customer.Id,
+                ItemId = item.Id
+            };
+
+            customer.CustomerItems.Add(customerItemDb);
+
+            await _unitOfWork.Complete();
+
+        }
+
+        public async Task DeleteCustomerItemAsync(DeleteCustomerItemDto customerItemTodelete)
+        {
+            var customerItem = await _unitOfWork.customerItemRepository.GetByAsync(x => x.ItemId == customerItemTodelete.ItemId && x.CustomerId == customerItemTodelete.CustomerId);
+            await _unitOfWork.customerItemRepository.DeleteAsync(customerItem.Id);
+        }
+        
     }
 }

@@ -17,6 +17,7 @@ namespace DataAccess
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IRepository<Category>, Repository<Category>>();
+            services.AddScoped<IRepository<CustomerItem>, Repository<CustomerItem>>();
             services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
             return services;
         }

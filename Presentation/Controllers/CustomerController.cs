@@ -30,11 +30,27 @@ namespace Presentation.Controllers
             return  Ok();
         }
 
+        [HttpPost]
+        [Route("CreateCustomerItem")]
+        public async Task<IActionResult> CreateCustomerItem(CreateCustomerItemDto newCustomerItem)
+        {
+            await _customerService.CreateCustomerItemAsync(newCustomerItem);
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("Delete/{customerId}")]
         public async Task<IActionResult> Delete(int customerId)
         {
             await _customerService.DeleteCustomerAsync(customerId);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Delete/CustomerItem")]
+        public async Task<IActionResult> DeleteCustomerItem(DeleteCustomerItemDto customerItemToDelete)
+        {
+            await _customerService.DeleteCustomerItemAsync(customerItemToDelete);
             return Ok();
         }
 

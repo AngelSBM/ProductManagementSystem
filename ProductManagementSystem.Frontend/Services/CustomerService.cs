@@ -16,6 +16,8 @@ namespace ProductManagementSystem.Frontend.Services
         Task UpdateCustomerAsync(CustomerDto updatedCustomer);
         Task DeleteCustomerAsync(int id);
         Task<CustomerInfoDto> GetCustomerInformationAsync(int customerId);
+        Task CreateCustomerItemAsync(CreateCustomerItemDto newCustomerItem);
+        Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem);
     }
 
     public class CustomerService : ICustomerService
@@ -85,6 +87,20 @@ namespace ProductManagementSystem.Frontend.Services
             return result;
         }
 
+        public async Task CreateCustomerItemAsync(CreateCustomerItemDto newCustomerItem)
+        {
+            await _baseUrl
+                .AppendPathSegment(_customerPath)
+                .AppendPathSegment("CreateCustomerItem")
+                .PostJsonAsync(newCustomerItem);
+        }
 
+        public async Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem)
+        {
+            await _baseUrl
+                .AppendPathSegment(_customerPath)
+                .AppendPathSegment("Delete/CustomerItem")
+                .PostJsonAsync(deletedCustomerItem);
+        }
     }
 }
