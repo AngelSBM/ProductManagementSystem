@@ -8,11 +8,24 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="QuestPDF" Version="2024.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\ProductManagementSystem.Shared\ProductManagementSystem.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Personal\ProductManagementSystem\BusinessLogic\Services\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Services\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Personal\ProductManagementSystem\BusinessLogic\Services\.editorconfig" />
   </ItemGroup>
 
 </Project>

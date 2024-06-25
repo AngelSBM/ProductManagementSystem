@@ -36,7 +36,7 @@ namespace DataAccess.Repositories
                                         .Where(x => x.Id == customerId)
                                         .Include(x => x.CustomerItems)
                                         .ThenInclude(x => x.Item)
-                                        .ThenInclude(x => x.Category)
+                                        .ThenInclude(x => x!.Category)
                                         .FirstOrDefaultAsync();
 
             return customer;

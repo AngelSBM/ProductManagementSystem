@@ -3,6 +3,8 @@ using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagementSystem.Shared.DTOs;
 using ProductManagementSystem.Shared.DTOs.Item;
+using QuestPDF.Fluent;
+using QuestPDF.Previewer;
 
 namespace Presentation.Controllers
 {
@@ -47,6 +49,7 @@ namespace Presentation.Controllers
             await _itemService.UpdateItemAsync(updatedItem);
             return Ok();
         }
+
 
     }
 }
