@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.DTOs;
 using Flurl;
 using Flurl.Http;
+using ProductManagementSystem.Frontend.Helpers;
 using ProductManagementSystem.Shared.DTOs;
 using ProductManagementSystem.Shared.DTOs.Item;
 using System.Net.Http.Json;
@@ -20,7 +21,7 @@ namespace ProductManagementSystem.Frontend.Services
         Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem);
     }
 
-    public class CustomerService : ICustomerService
+    public class CustomerService(ILoadingService loadingService) : ICustomerService
     {        
         private const string _customerPath = "/Customer";
         private const string _baseUrl = "https://localhost:44307";
@@ -31,8 +32,8 @@ namespace ProductManagementSystem.Frontend.Services
             var result = await _baseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("GetAll")
-                .GetJsonAsync<List<CustomerDto>>();
-
+                .GetWithLoadingAsync<List<CustomerDto>>(loadingService);
+            
             return result;
 
         }
@@ -42,7 +43,7 @@ namespace ProductManagementSystem.Frontend.Services
             var result = await _baseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment(customerId)
-                .GetJsonAsync<CustomerDto>();
+                .GetWithLoadingAsync<CustomerDto>(loadingService);
 
             return result;
         }
@@ -52,8 +53,8 @@ namespace ProductManagementSystem.Frontend.Services
             await _baseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Create")
-                .PostJsonAsync(newCustomer);
-            
+                .PostWithLoadingAsync(newCustomer, loadingService);
+                
         }
 
         public async Task UpdateCustomerAsync(CustomerDto updatedCustomer)
@@ -71,7 +72,7 @@ namespace ProductManagementSystem.Frontend.Services
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Delete")
                 .AppendPathSegment(id) 
-                .DeleteAsync();
+                .DeleteWithLoadingAsync(loadingService);
 
         }
 
@@ -82,7 +83,7 @@ namespace ProductManagementSystem.Frontend.Services
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("GetInformation")
                 .AppendPathSegment(customerId)
-                .GetJsonAsync<CustomerInfoDto>();
+                .GetWithLoadingAsync<CustomerInfoDto>(loadingService);
 
             return result;
         }
@@ -92,7 +93,7 @@ namespace ProductManagementSystem.Frontend.Services
             await _baseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("CreateCustomerItem")
-                .PostJsonAsync(newCustomerItem);
+                .PostWithLoadingAsync(newCustomerItem, loadingService);
         }
 
         public async Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem)
@@ -100,7 +101,7 @@ namespace ProductManagementSystem.Frontend.Services
             await _baseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Delete/CustomerItem")
-                .PostJsonAsync(deletedCustomerItem);
+                .PostWithLoadingAsync(deletedCustomerItem, loadingService);
         }
     }
 }

@@ -18,4 +18,8 @@
     <ProjectReference Include="..\ProductManagementSystem.Shared\ProductManagementSystem.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Shared\css\" />
+  </ItemGroup>
+
 </Project>

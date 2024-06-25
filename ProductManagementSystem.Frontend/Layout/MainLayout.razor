@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using ProductManagementSystem.Frontend.Components.Shared
+@inherits LayoutComponentBase
+
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -10,6 +13,7 @@
         </div>
 
         <article class="content px-4">
+             <Loading />
             @Body
         </article>
     </main>

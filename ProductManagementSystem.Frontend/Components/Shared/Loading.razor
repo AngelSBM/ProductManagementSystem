@@ -1,0 +1,18 @@
+﻿@using ProductManagementSystem.Frontend.Services
+@inject ILoadingService LoadingService
+
+<div class="loading-overlay" style="@(LoadingService.IsLoading ? "display: block;" : "display: none;")">
+    <div class="spinner"></div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        LoadingService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        LoadingService.OnChange -= StateHasChanged;
+    }
+}
