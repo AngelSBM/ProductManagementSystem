@@ -12,6 +12,8 @@
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +22,12 @@
 
   <ItemGroup>
     <Folder Include="Components\Shared\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

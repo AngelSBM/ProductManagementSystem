@@ -1,6 +1,7 @@
-﻿@using ProductManagementSystem.Frontend.Components.Shared
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using ProductManagementSystem.Frontend.Components.Shared
 @inherits LayoutComponentBase
-
+@inject NavigationManager Navigation
 
 <div class="page">
 
@@ -10,7 +11,7 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <a  @onclick="LogOut">Log out</a>
         </div>
 
         <article class="content px-4">
@@ -19,3 +20,10 @@
         </article>
     </main>
 </div>
+
+@code{
+    public void LogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout"); 
+    }
+}

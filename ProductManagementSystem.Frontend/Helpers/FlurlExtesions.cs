@@ -7,12 +7,14 @@ namespace ProductManagementSystem.Frontend.Helpers
 
     public static class FlurlExtensions
     {
-        public static async Task<T> GetWithLoadingAsync<T>(this Url url, ILoadingService loadingService)
+        public static async Task<T> GetWithLoadingAsync<T>(this Url url, string token, ILoadingService loadingService)
         {
             try
             {
                 loadingService.Show();
-                return await url.GetJsonAsync<T>();
+                return await url
+                    .WithHeader("Authorization", $"bearer {token}")
+                    .GetJsonAsync<T>();
             }
             finally
             {
@@ -22,12 +24,15 @@ namespace ProductManagementSystem.Frontend.Helpers
 
 
 
-        public static async Task<T> PostWithLoadingAsync<T>(this Url url, object data, ILoadingService loadingService)
+        public static async Task<T> PostWithLoadingAsync<T>(this Url url, object data, string token, ILoadingService loadingService)
         {
             try
             {
                 loadingService.Show();
-                return await url.PostJsonAsync(data).ReceiveJson<T>();
+                return await url
+                    .WithHeader("Authorization", $"bearer {token}")
+                    .PostJsonAsync(data)
+                    .ReceiveJson<T>();
             }
             finally
             {
@@ -35,12 +40,12 @@ namespace ProductManagementSystem.Frontend.Helpers
             }
         }
 
-        public static async Task PostWithLoadingAsync(this Url url, object data, ILoadingService loadingService)
+        public static async Task PostWithLoadingAsync(this Url url, object data, string token, ILoadingService loadingService)
         {
             try
             {
                 loadingService.Show();
-                await url.PostJsonAsync(data);
+                await url.WithHeader("Authorization", $"bearer {token}").PostJsonAsync(data);
             }
             finally
             {
@@ -48,7 +53,7 @@ namespace ProductManagementSystem.Frontend.Helpers
             }
         }
 
-        public static async Task<T> PutWithLoadingAsync<T>(this Url url, object data, ILoadingService loadingService)
+        public static async Task<T> PutWithLoadingAsync<T>(this Url url, object data, string token, ILoadingService loadingService)
         {
             try
             {
@@ -61,12 +66,12 @@ namespace ProductManagementSystem.Frontend.Helpers
             }
         }
 
-        public static async Task DeleteWithLoadingAsync(this Url url, ILoadingService loadingService)
+        public static async Task DeleteWithLoadingAsync(this Url url, string token, ILoadingService loadingService)
         {
             try
             {
                 loadingService.Show();
-                await url.DeleteAsync();
+                await url.WithHeader("Authorization", $"bearer {token}").DeleteAsync();
             }
             finally
             {

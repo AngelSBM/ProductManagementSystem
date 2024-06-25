@@ -1,10 +1,12 @@
 ﻿using BusinessLogic.DTOs;
 using Flurl;
 using Flurl.Http;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using ProductManagementSystem.Frontend.Helpers;
 using ProductManagementSystem.Shared.DTOs;
 using ProductManagementSystem.Shared.DTOs.Item;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 
 namespace ProductManagementSystem.Frontend.Services
 {
@@ -21,18 +23,30 @@ namespace ProductManagementSystem.Frontend.Services
         Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem);
     }
 
-    public class CustomerService(ILoadingService loadingService) : ICustomerService
+    public class CustomerService(ILoadingService loadingService, IAccessTokenProvider tokenProvider, ConfigurationSettings configurationSettings) : ICustomerService
     {        
         private const string _customerPath = "/Customer";
-        private const string _baseUrl = "https://localhost:44307";
+
+        public async Task<string> GetTokenAsync()
+        {
+            string token = "";
+            var tokenResult = await tokenProvider.RequestAccessToken();
+            if (tokenResult.TryGetToken(out var tokenResponse)) 
+            {
+                token = tokenResponse.Value;
+            }
+
+            return token;
+        }
 
         public async Task<IEnumerable<CustomerDto>> GetCustomersAsync()
         {
+            var token = await GetTokenAsync();
 
-            var result = await _baseUrl
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
-                .AppendPathSegment("GetAll")
-                .GetWithLoadingAsync<List<CustomerDto>>(loadingService);
+                .AppendPathSegment("GetAll") 
+                .GetWithLoadingAsync<List<CustomerDto>>(token, loadingService);
             
             return result;
 
@@ -40,68 +54,81 @@ namespace ProductManagementSystem.Frontend.Services
 
         public async Task<CustomerDto> GetCustomerById(int customerId)
         {
-            var result = await _baseUrl
+            var token = await GetTokenAsync();
+
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment(customerId)
-                .GetWithLoadingAsync<CustomerDto>(loadingService);
+                .GetWithLoadingAsync<CustomerDto>(token, loadingService);
 
             return result;
         }
 
         public async Task CreateCustomerAsync(CreateCustomerDto newCustomer)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Create")
-                .PostWithLoadingAsync(newCustomer, loadingService);
+                .PostWithLoadingAsync(newCustomer, token, loadingService);
                 
         }
 
         public async Task UpdateCustomerAsync(CustomerDto updatedCustomer)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Update")
+                .WithHeader("Authorization", $"bearer {token}")
                 .PutJsonAsync(updatedCustomer);
 
         }
 
         public async Task DeleteCustomerAsync(int id)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Delete")
                 .AppendPathSegment(id) 
-                .DeleteWithLoadingAsync(loadingService);
+                .DeleteWithLoadingAsync(token, loadingService);
 
         }
 
 
         public async Task<CustomerInfoDto> GetCustomerInformationAsync(int customerId)
         {
-            var result = await _baseUrl
+            var token = await GetTokenAsync();
+
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("GetInformation")
                 .AppendPathSegment(customerId)
-                .GetWithLoadingAsync<CustomerInfoDto>(loadingService);
+                .GetWithLoadingAsync<CustomerInfoDto>(token, loadingService);
 
             return result;
         }
 
         public async Task CreateCustomerItemAsync(CreateCustomerItemDto newCustomerItem)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("CreateCustomerItem")
-                .PostWithLoadingAsync(newCustomerItem, loadingService);
+                .PostWithLoadingAsync(newCustomerItem, token, loadingService);
         }
 
         public async Task DeleteCustomerItemAsync(DeleteCustomerItemDto deletedCustomerItem)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_customerPath)
                 .AppendPathSegment("Delete/CustomerItem")
-                .PostWithLoadingAsync(deletedCustomerItem, loadingService);
+                .PostWithLoadingAsync(deletedCustomerItem, token, loadingService);
         }
     }
 }

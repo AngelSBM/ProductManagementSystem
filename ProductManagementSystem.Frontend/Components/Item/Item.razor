@@ -1,10 +1,11 @@
 ﻿@page "/item/{itemId:int}"
 @using BusinessLogic.DTOs
 @using CurrieTechnologies.Razor.SweetAlert2
+@using Microsoft.AspNetCore.Authorization
 @using ProductManagementSystem.Frontend.Services
 @using ProductManagementSystem.Shared.DTOs
 @using ProductManagementSystem.Shared.DTOs.Item
-
+@attribute [Authorize]
 @inject IItemService itemService
 @inject NavigationManager Navigation
 @inject SweetAlertService Swal

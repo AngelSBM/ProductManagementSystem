@@ -1,12 +1,16 @@
 ﻿using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ProductManagementSystem.Shared.DTOs.Item;
 using ProductManagementSystem.Shared.DTOs.Report;
 
 namespace Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
+    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class ReportController(IReportService reportService) : ControllerBase
     {
         [HttpPost]

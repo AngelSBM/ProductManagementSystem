@@ -1,6 +1,10 @@
 ﻿@page "/customers"
 
+@attribute [Authorize]
+
 @using CurrieTechnologies.Razor.SweetAlert2
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using ProductManagementSystem.Frontend.Services
 @using ProductManagementSystem.Shared.DTOs
 

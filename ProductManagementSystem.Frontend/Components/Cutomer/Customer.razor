@@ -1,9 +1,10 @@
 ﻿@page "/customer/{customerId:int}"
 @using BusinessLogic.DTOs
 @using CurrieTechnologies.Razor.SweetAlert2
+@using Microsoft.AspNetCore.Authorization
 @using ProductManagementSystem.Frontend.Services
 @using ProductManagementSystem.Shared.DTOs
-
+@attribute [Authorize]
 @inject ICustomerService customerService
 @inject NavigationManager Navigation
 @inject SweetAlertService Swal

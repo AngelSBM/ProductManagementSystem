@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.DTOs;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 using ProductManagementSystem.Shared.DTOs;
 using ProductManagementSystem.Shared.DTOs.Item;
 using QuestPDF.Fluent;
@@ -8,8 +10,10 @@ using QuestPDF.Previewer;
 
 namespace Presentation.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
+    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class ItemController(IItemService _itemService) : ControllerBase
     {
 

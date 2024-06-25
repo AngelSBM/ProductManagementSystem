@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.DTOs;
 using Flurl;
 using Flurl.Http;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ProductManagementSystem.Frontend.Helpers;
 using ProductManagementSystem.Shared.DTOs;
 using ProductManagementSystem.Shared.DTOs.Item;
 
@@ -15,18 +17,29 @@ namespace ProductManagementSystem.Frontend.Services
         Task UpdateItemAsync(ItemDto updatedItem);
         Task DeleteItemAsync(int id);
     }
-    public class ItemService : IItemService
+    public class ItemService(ILoadingService loadingService, IAccessTokenProvider tokenProvider, ConfigurationSettings configurationSettings) : IItemService
     {
         private const string _itemPath = "/Item";
-        private const string _baseUrl = "https://localhost:44307";
+
+        public async Task<string> GetTokenAsync()
+        {
+            string token = "";
+            var tokenResult = await tokenProvider.RequestAccessToken();
+            if (tokenResult.TryGetToken(out var tokenResponse))
+            {
+                token = tokenResponse.Value;
+            }
+
+            return token;
+        }
 
         public async Task<IEnumerable<ItemDto>> GetItemsAsync()
         {
-
-            var result = await _baseUrl
+            var token = await GetTokenAsync();
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment("/Getall")
-                .GetJsonAsync<List<ItemDto>>();
+                .GetWithLoadingAsync<List<ItemDto>>(token,loadingService);
 
             return result;
 
@@ -34,11 +47,11 @@ namespace ProductManagementSystem.Frontend.Services
 
         public async Task<IEnumerable<CategoryDto>> GetCateogoriesAsync()
         {
-
-            var result = await _baseUrl
+            var token = await GetTokenAsync();
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment("/GetItemCategories")
-                .GetJsonAsync<List<CategoryDto>>();
+                .GetWithLoadingAsync<List<CategoryDto>>(token,loadingService);
 
             return result;
 
@@ -46,27 +59,29 @@ namespace ProductManagementSystem.Frontend.Services
 
         public async Task<ItemDto> GetItemById(int itemId)
         {
-
-            var result = await _baseUrl
+            var token = await GetTokenAsync();
+            var result = await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment(itemId)
-                .GetJsonAsync<ItemDto>();
+                .GetWithLoadingAsync<ItemDto>(token,loadingService);
 
             return result;
         }
 
         public async Task CreateItemAsync(CreateItemDto newItem)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment("Create")
-                .PostJsonAsync(newItem);
+                .PostWithLoadingAsync(newItem,token, loadingService);
 
         }
 
         public async Task UpdateItemAsync(ItemDto updatedItem)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment("Update")
                 .PutJsonAsync(updatedItem);
@@ -76,11 +91,12 @@ namespace ProductManagementSystem.Frontend.Services
 
         public async Task DeleteItemAsync(int id)
         {
-            await _baseUrl
+            var token = await GetTokenAsync();
+            await configurationSettings.BaseUrl
                 .AppendPathSegment(_itemPath)
                 .AppendPathSegment("Delete")
                 .AppendPathSegment(id)
-                .DeleteAsync();
+                .DeleteWithLoadingAsync(token,loadingService);
 
         }
 
