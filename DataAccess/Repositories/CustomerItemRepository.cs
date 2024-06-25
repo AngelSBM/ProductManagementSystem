@@ -11,6 +11,7 @@ namespace DataAccess.Repositories
     public interface ICustomerItemRepository : IRepository<CustomerItem>
     {
         Task<IEnumerable<CustomerItem>> GetItemsWithinRangeAsync(int fromItemNumber, int toItemNumber);
+        Task<IEnumerable<CustomerItem>> GetCustomerItemsAsync();
     }
     public class CustomerItemRepository : Repository<CustomerItem>, ICustomerItemRepository
     {
@@ -31,6 +32,16 @@ namespace DataAccess.Repositories
                                          .ToListAsync();
 
             return rangeResult;
+        }
+
+        public async Task<IEnumerable<CustomerItem>> GetCustomerItemsAsync()
+        {
+            var customerItems = await _context.CustomerItem.Include(x => x.Customer)
+                                         .Include(x => x.Item)
+                                         .ThenInclude(x => x!.Category)
+                                         .ToListAsync();
+
+            return customerItems;
         }
 
     }

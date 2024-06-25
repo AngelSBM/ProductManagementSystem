@@ -16,5 +16,16 @@ namespace Presentation.Controllers
             var report = await reportService.GenerateRangeItemsReportAsync(range);
             return File(report, "application/pdf", "report.pdf");
         }
+
+
+        [HttpGet]
+        [Route("Get/MostExpensiveCustomerItems")]
+        public async Task<IActionResult> GetAll()
+        {
+            var report = await reportService.GenerateExpensiveItemsReport();
+            return File(report, "application/pdf", "report.pdf");
+        }
+
+
     }
 }

@@ -63,9 +63,12 @@
     public string buttonDisplayText = null!;
 
     protected override async Task OnInitializedAsync()
-    {
+    {        
         if (CustomerId is 0)
+        {
             buttonDisplayText = "Create";
+            customer.Active = true;
+        }
         else
         {
             buttonDisplayText = "Update";

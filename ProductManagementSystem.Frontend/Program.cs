@@ -14,6 +14,7 @@ builder.Services.AddSweetAlert2();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 
 await builder.Build().RunAsync();
