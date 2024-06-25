@@ -2,6 +2,7 @@
 @using BusinessLogic.DTOs
 @using CurrieTechnologies.Razor.SweetAlert2
 @using Microsoft.AspNetCore.Authorization
+@using ProductManagementSystem.Frontend.Helpers
 @using ProductManagementSystem.Frontend.Services
 @using ProductManagementSystem.Shared.DTOs
 @attribute [Authorize]
@@ -80,25 +81,37 @@
     private async Task OnValidSubmit()
     {        
 
-        if (CustomerId is 0)
+        try
         {
-            CreateCustomerDto newCustomer = new CreateCustomerDto()
+            if (CustomerId is 0)
             {
-                Name = customer.Name,
-                Email = customer.Email,
-                Phone = customer.Phone
-            };
+                CreateCustomerDto newCustomer = new CreateCustomerDto()
+                    {
+                        Name = customer.Name,
+                        Email = customer.Email,
+                        Phone = customer.Phone
+                    };
 
-            await customerService.CreateCustomerAsync(newCustomer);
+                await customerService.CreateCustomerAsync(newCustomer);
 
+            }
+
+            if (CustomerId > 0)
+            {
+                await customerService.UpdateCustomerAsync(customer);
+            }
+
+            Navigation.NavigateTo("/customers");
         }
-
-        if(CustomerId > 0)
+        catch (Exception ex)
         {
-            await customerService.UpdateCustomerAsync(customer);
+            Swal.FireAsync(new SweetAlertOptions()
+            {
+                Title = "Error",
+                Text = ErrorMessageFormat.FormatErrorMessage(ex),
+                Icon = SweetAlertIcon.Error
+            });
         }
-
-        Navigation.NavigateTo("/customers");
 
     }
 

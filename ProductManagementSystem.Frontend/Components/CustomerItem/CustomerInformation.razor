@@ -140,6 +140,17 @@
 
     private async Task HandleValueChanged(ItemDto item)
     {
+
+        if(customer.Items.Any(x => x.Id == item.Id))
+        {
+            await Swal.FireAsync(new SweetAlertOptions()
+                {
+                    Title = $"{customer.Name} already has this product assigned",
+                    Icon = SweetAlertIcon.Error
+                });
+            return;
+        }
+
         var newCustomerItem = new CreateCustomerItemDto()
             {
                 CustomerId = customer.Id,

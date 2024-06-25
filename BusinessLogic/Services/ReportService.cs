@@ -91,8 +91,7 @@ namespace BusinessLogic.Services
                         var imageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", "vslogo.jpeg");
                         byte[] imageData = System.IO.File.ReadAllBytes(imageUrl);
 
-                        //row.ConstantItem(140).Height(60).Placeholder();
-                        row.ConstantItem(150).Image(imageData);
+                        row.ConstantItem(60).Image(imageData);
 
                         row.RelativeItem().Column(col =>
                         {

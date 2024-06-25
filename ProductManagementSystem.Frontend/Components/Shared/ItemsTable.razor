@@ -5,6 +5,8 @@
 
 <h3>Items Table</h3>
 
+<input class="form-control" name="filter" @bind="filterText" @oninput="FilterData" type="text" placeholder="search item..." />
+
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +29,7 @@
         }
         else
         {
-            @foreach (var item in items)
+            @foreach (var item in filteredItems)
             {
                 <tr>
                     <td>@item.Name</td>
@@ -62,10 +64,30 @@
     [Parameter]
     public EventCallback<ItemDto> OnValueChanged { get; set; }
     IEnumerable<ItemDto> items;
+    IEnumerable<ItemDto> filteredItems;
+    private string filterText = "";
+
+    private void FilterData(ChangeEventArgs e)
+    {
+        filterText = e.Value.ToString();
+        if (!string.IsNullOrWhiteSpace(filterText))
+        {
+            filteredItems = items.Where(p =>
+                p.Name.ToLower().Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
+                p.Number.ToString().Contains(filterText, StringComparison.OrdinalIgnoreCase) ||
+                p.Category.Name.Contains(filterText, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+        }
+        else
+        {
+            filteredItems = items; 
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         items = await itemService.GetItemsAsync();
+        filteredItems = items;
     }
 
     private async Task NotifyParent(ItemDto itemDto)

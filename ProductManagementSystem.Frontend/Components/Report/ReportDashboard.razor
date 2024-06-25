@@ -1,5 +1,6 @@
 ﻿@page "/reports"
 @attribute [Authorize]
+@using CurrieTechnologies.Razor.SweetAlert2
 @using Microsoft.AspNetCore.Authorization
 @using ProductManagementSystem.Frontend.Helpers
 @using ProductManagementSystem.Frontend.Services
@@ -69,6 +70,7 @@
 
 @code {
     @inject IReportService reportService;
+    @inject SweetAlertService Swal;
 
     CreateCustomerItemRangeReportDto rangeReportDto = new();
     string pdfUrl;
@@ -76,6 +78,17 @@
 
     private async Task GenerateReport()
     {
+        if (rangeReportDto.ItemNumberFrom > rangeReportDto.ItemNumberTo)
+        {
+            await Swal.FireAsync(new SweetAlertOptions()
+                {
+                    Title = $"Invalid range",
+                    Text = "Your 'from' item number is higher than the 'to' item number",
+                    Icon = SweetAlertIcon.Error
+                });
+                return;
+        }
+
         if (selectedReportType == ReportType.ItemRange)
         {
             var reportBytes = await reportService.GetItemRangeReport(rangeReportDto);

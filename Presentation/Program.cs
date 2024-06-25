@@ -5,20 +5,15 @@ using QuestPDF.Fluent;
 using QuestPDF.Previewer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using FluentValidation.AspNetCore;
+using BusinessLogic.DTOs;
+using Presentation.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-//Document.Create(container =>
-//{
-//    container.Page(page =>
-//    {
-//        // page content
-//    });
-//}).ShowInPreviewer();
-
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerDtoValidator>()); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,15 +21,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureId"));
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddMicrosoftIdentityWebApi(options =>
-//    {
-//        builder.Configuration.Bind("AzureAd", options);
-//    }, options =>
-//    {
-//        builder.Configuration.Bind("AzureAd", options.TokenValidationParameters);
-//    });
-
 
 builder.Services.AddCors(options =>
 {
@@ -58,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

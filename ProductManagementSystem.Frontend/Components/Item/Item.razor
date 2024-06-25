@@ -2,6 +2,7 @@
 @using BusinessLogic.DTOs
 @using CurrieTechnologies.Razor.SweetAlert2
 @using Microsoft.AspNetCore.Authorization
+@using ProductManagementSystem.Frontend.Helpers
 @using ProductManagementSystem.Frontend.Services
 @using ProductManagementSystem.Shared.DTOs
 @using ProductManagementSystem.Shared.DTOs.Item
@@ -107,32 +108,44 @@
     private async Task OnValidSubmit()
     {
 
-        if (itemId is 0)
+        try
         {
-            CreateItemDto newItem = new()
-                {
-                    Name = item.Name,
-                    Number = item.Number,
-                    Description = item.Description,
-                    Active = true,
-                    Price = item.Price,
-                    Category = new CategoryDto()
+            if (itemId is 0)
+            {
+                CreateItemDto newItem = new()
                     {
-                        Id = item.Category.Id,
-                        Name = ""                        
-                    }
-                };
+                        Name = item.Name,
+                        Number = item.Number,
+                        Description = item.Description,
+                        Active = true,
+                        Price = item.Price,
+                        Category = new CategoryDto()
+                        {
+                            Id = item.Category.Id,
+                            Name = ""
+                        }
+                    };
 
-            await itemService.CreateItemAsync(newItem);
+                await itemService.CreateItemAsync(newItem);
 
+            }
+
+            if (itemId > 0)
+            {
+                await itemService.UpdateItemAsync(item);
+            }
+
+            Navigation.NavigateTo("/items");
         }
-
-        if (itemId > 0)
+        catch (Exception ex)
         {
-            await itemService.UpdateItemAsync(item);
+            Swal.FireAsync(new SweetAlertOptions()
+                {
+                    Title = "Error",
+                    Text = ErrorMessageFormat.FormatErrorMessage(ex),
+                    Icon = SweetAlertIcon.Error
+                });
         }
-
-        Navigation.NavigateTo("/items");
 
     }
 
