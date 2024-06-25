@@ -63,6 +63,7 @@
         {
             var user = ((AuthenticationStateProvider)TokenProvider).GetAuthenticationStateAsync().Result.User;
             loggedUserName = user.Identity.Name;
+            
         }
     }
 }
