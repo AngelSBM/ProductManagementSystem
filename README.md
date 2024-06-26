@@ -4,32 +4,33 @@
 - **Description**: This is a project for managing customers, items, and the assignment between them. Additionally, it includes options to generate various types of reports.
 
 - **Features**:
--Create, update and disable customers.
--Create, update and disable items.
--Assign items to customers.
--Generate report of items and the customers assigned to them.
--Generate report of most expensive item(s) per customer.
+  - Create, update, and disable customers.
+  - Create, update, and disable items.
+  - Assign items to customers.
+  - Generate report of items and the customers assigned to them.
+  - Generate report of most expensive item(s) per customer.
 
-- **Technologies Used**: 
-**Front-end**: Blazor Assembly
-**Back-end:** ASP.NET 8 
-**SQL Engine**: SQL Server
-**Authentication Server**: Azure Active Directory
-**Reporting tool**: Quest
-**Most important dependencies**: Entity Framework Core, FluentValidations, MSAL, AutoMapper, SweetAlert2...
+- **Technologies Used**:
+  - **Front-end**: Blazor WebAssembly
+  - **Back-end**: ASP.NET 8 Web API
+  - **SQL Engine**: SQL Server
+  - **Authentication Server**: Azure Active Directory
+  - **Reporting Tool**: Quest
+  - **Most Important Dependencies**: Entity Framework Core, FluentValidations, MSAL, AutoMapper, SweetAlert2...
+
 
 ## Installation and Setup
 Before you spend time setting up the entire project, consider test it  through the following link. The application is deployed, and you can log in using the following credentials.
 
 [Click here to visit the app](productmanagementfrontend.azurewebsites.net) 🌐
 
-**👨‍🦲Test user 1 :**
-Email: `ivan@angelsebastianbellomateohot.onmicrosoft.com`
-Password: `Eladio3456`
+**👨‍🦲Test user 1 : **
+- Email: `ivan@angelsebastianbellomateohot.onmicrosoft.com`
+- Password: `Eladio3456`
 
 **🧔Test user 2:** 
-Email: `saiter@angelsebastianbellomateohot.onmicrosoft.com`
-Password: `Eladio3456`
+- Email: `saiter@angelsebastianbellomateohot.onmicrosoft.com`
+- Password: `Eladio3456`
 
 To access the application and utilize its various functionalities, you must be an authenticated user. All users have access to the same base of customers and items. The first time you access the application link, a Microsoft pop-up will appear prompting you to enter an email and password. Currently, to add a user to the application, you need to contact the system ADMIN who will provide you with an email and password. After the initial login, the same pop-up will prompt you to change your password.
 
@@ -82,17 +83,17 @@ Verify that the solution is configured to run multiple startup projects, in this
 Run the solution, front-end and back-end will start running. 🔥🔥🔥
 
 ## Project Structure
- -Layered Architecture
--Repository Pattern
--Unit of Work pattern
--Dtos patern
--Rich Domain (DDD)
+- Layered Architecture
+- Repository Pattern
+- Unit of Work pattern
+- Dtos patern
+- Rich Domain (DDD)
 
 
 ## Troubleshooting
 -Contact the owner through these channels:
-email: angelsebastianbellomateo[arroba]gmail.com
-linkedIn: https://www.linkedin.com/in/angel-s-bello-957634204/
+- email: angelsebastianbellomateo[arroba]gmail.com
+- linkedIn: https://www.linkedin.com/in/angel-s-bello-957634204/
 
 ## Licensing and Credits
 Ángel Bello 
