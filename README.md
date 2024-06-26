@@ -86,7 +86,7 @@ Run the solution, front-end and back-end will start running. 🔥🔥🔥
 - Layered Architecture
 - Repository Pattern
 - Unit of Work pattern
-- Dtos patern
+- Data Transfer Object (DTO) pattern
 - Rich Domain (DDD)
 
 
