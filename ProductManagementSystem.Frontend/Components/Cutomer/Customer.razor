@@ -37,7 +37,7 @@
 
     <div class="row">
         <div class="col-6">
-            <a class="btn btn-warning" href="customers">Volver</a>
+            <a class="btn btn-warning" href="customers">Back</a>
         </div>
         <div class="col-6 d-flex justify-content-end">
             @if (!customer.Active && buttonDisplayText == "Update")
@@ -105,10 +105,11 @@
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ErrorMessageFormat.FormatErrorMessage(ex));
             Swal.FireAsync(new SweetAlertOptions()
             {
                 Title = "Error",
-                Text = ErrorMessageFormat.FormatErrorMessage(ex),
+                Text = "Invalid fields, please check",
                 Icon = SweetAlertIcon.Error
             });
         }
