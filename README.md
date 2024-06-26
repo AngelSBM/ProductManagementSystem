@@ -23,7 +23,7 @@ Before you spend time setting up the entire project, consider test it  through t
 
 [Click here to visit the app](productmanagementfrontend.azurewebsites.net) 🌐
 
-**👨‍🦲Test user 1 : **
+**👨‍🦲Test user 1 :**
 Email: `ivan@angelsebastianbellomateohot.onmicrosoft.com`
 Password: `Eladio3456`
 
