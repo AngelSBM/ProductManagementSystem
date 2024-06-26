@@ -22,7 +22,7 @@
 ## Installation and Setup
 Before you spend time setting up the entire project, consider test it  through the following link. The application is deployed, and you can log in using the following credentials.
 
-[Click here to visit the app](productmanagementfrontend.azurewebsites.net) 🌐
+[Click here to visit the app](http://productmanagementfrontend.azurewebsites.net) 🌐
 
 **👨‍🦲Test user 1 : **
 - Email: `ivan@angelsebastianbellomateohot.onmicrosoft.com`
