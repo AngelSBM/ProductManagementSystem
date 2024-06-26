@@ -51,7 +51,9 @@ The project uses database-first approach, so migrations are not used. Instead, y
 
 First, open *SQL Server Management Studio (SSMS)* and connect to your local server. 
 
-Navigate to the project directory and then `/Scripts`, here you will find the file `ProductManagementDB.sql` open this file or copy its content and paste it in SSMS and execute the script.
+Execute the `CREATE DATABASE ProductManagementDB;` script to create the database in your local server.
+
+Navigate to the project directory and then `/Scripts`, here you will find the file `ProductManagementDB.sql` open this file or copy its content and paste it in SSMS and execute the script, this script is for creating the tables in the Database and populate them with some initial info.
 
 Verify that database with the name of **ProductManagementDB** has been created
 
@@ -59,6 +61,7 @@ Verify that database with the name of **ProductManagementDB** has been created
 Navigate to the project directory and open **ProductManagementSystem.sln**, this is the solution which contains the back-end and the front-end as well. Open the solution in Visual Studio. Right click the solution icon, click on "Clean solution" and the right click again and click on "Rebuild solution"
 
 Navigate to `ProductManagementSystem.Backend/Presentation/appsettings.json`
+
 
 In this configuration file, you will change the connection string from the the cloud server (hosted in azure) to your local server. The key you must change is **ProductManagementDB**
 
